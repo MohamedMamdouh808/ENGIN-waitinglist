@@ -1,15 +1,16 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bg: "#0A0B0D",
-        raised: "#121418",
-        line: "#1E232B",
-        fg: "#EDEFF2",
-        muted: "#8A919C",
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        raised: "rgb(var(--raised) / <alpha-value>)",
+        line: "rgb(var(--line) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
         accent: "#3E7BFA",
         "accent-dim": "#16294F",
         "accent-soft": "#7FA6FF",

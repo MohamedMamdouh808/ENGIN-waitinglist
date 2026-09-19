@@ -21,36 +21,52 @@ export function Leaderboard() {
     }
 
     load();
-    const poll = setInterval(load, 20_000);
+    const poll = setInterval(() => {
+      if (!document.hidden) load();
+    }, 20_000);
+    const onVis = () => {
+      if (!document.hidden) load();
+    };
+    document.addEventListener("visibilitychange", onVis);
     return () => {
       cancelled = true;
       clearInterval(poll);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
 
   return (
-    <section id="leaderboard" className="border-b border-line py-24">
-      <div className="mx-auto max-w-2xl px-6">
+    <section id="leaderboard" className="border-b border-line py-16 sm:py-24">
+      <div className="container-engin max-w-2xl">
         <p className="font-mono text-xs text-accent-soft">referral_leaderboard</p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-fg">Who's moving up</h2>
-        <p className="mt-3 text-muted">
-          Invite builders. Earn referral credit. Move up the queue.
-        </p>
+        <h2 id="leaderboard-heading" className="mt-3 text-3xl font-semibold tracking-tight text-fg">
+          Who&apos;s moving up
+        </h2>
+        <p className="mt-3 text-muted">Invite friends. Each invite moves you forward. See who&apos;s ahead.</p>
 
-        <ol className="mt-10 divide-y divide-line border-y border-line">
+        <ol
+          aria-labelledby="leaderboard-heading"
+          className="mt-10 divide-y divide-line overflow-hidden rounded-md border border-line"
+        >
           {entries === null && (
-            <li className="py-4 font-mono text-sm text-muted">Loading leaderboard…</li>
+            <li className="flex items-center gap-3 px-4 py-4 font-mono text-sm text-muted">
+              <span className="h-4 w-4 animate-pulse rounded-full bg-line" aria-hidden />
+              Loading leaderboard…
+            </li>
           )}
           {entries?.length === 0 && (
-            <li className="py-4 text-muted">No referrals yet — be the first.</li>
+            <li className="px-4 py-8 text-center text-muted">
+              No referrals yet — be the first to invite and jump the queue.
+            </li>
           )}
           {entries?.map((entry) => (
-            <li key={entry.rank} className="flex items-center justify-between py-4">
+            <li
+              key={`${entry.display_alias}-${entry.rank}`}
+              className="flex items-center justify-between px-4 py-4"
+            >
               <span className="flex items-center gap-4">
-                <span className="tabular font-mono text-sm text-muted">
-                  #{entry.rank}
-                </span>
-                <span className="text-fg">{entry.display_alias}</span>
+                <span className="tabular font-mono text-sm text-muted">#{entry.rank}</span>
+                <span className="font-medium text-fg">{entry.display_alias}</span>
               </span>
               <span className="tabular font-mono text-sm text-accent-soft">
                 {entry.referral_count} referral{entry.referral_count === 1 ? "" : "s"}

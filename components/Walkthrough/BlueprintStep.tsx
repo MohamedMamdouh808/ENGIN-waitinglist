@@ -6,11 +6,11 @@ export function BlueprintStep() {
   return (
     <div className="mx-auto max-w-lg text-left">
       <p className="mb-4 text-center text-sm text-muted">
-        Plain English becomes a structured specification.
+        Your idea becomes a clear, structured plan — no tech jargon needed.
       </p>
-      <div className="rounded-sm border border-line bg-raised p-5">
-        <p className="font-mono text-xs text-accent-soft">app</p>
-        <p className="mb-4 mt-1 text-fg">Restaurant Booking</p>
+      <div className="card p-5">
+        <p className="font-mono text-xs text-accent-soft">your_plan</p>
+        <p className="mb-4 mt-1 font-medium text-fg">Restaurant Booking App</p>
 
         <BlueprintGroup label="Entities" items={ENTITIES} />
         <BlueprintGroup label="Routes" items={ROUTES} mono />

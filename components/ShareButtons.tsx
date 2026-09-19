@@ -1,11 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-const SHARE_TEXT = "I just joined the ENGIN waitlist — a deterministic compiler for software.";
+const SHARE_TEXT = "I just joined the ENGIN waitlist — turn your idea into real software, no coding needed.";
 
 export function ShareButtons({ link }: { link: string }) {
-  const canNativeShare = typeof navigator !== "undefined" && !!navigator.share;
+  const [canNativeShare, setCanNativeShare] = useState(false);
+
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== "undefined" && !!navigator.share);
+  }, []);
 
   async function nativeShare() {
     try {
@@ -16,7 +21,7 @@ export function ShareButtons({ link }: { link: string }) {
   }
 
   const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${link}`)}`;
-  const x = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(link)}`;
+  const x = `https://x.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(link)}`;
   const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(link)}`;
 
   if (canNativeShare) {
@@ -29,20 +34,20 @@ export function ShareButtons({ link }: { link: string }) {
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
-      <a href={whatsapp} target="_blank" rel="noreferrer">
-        <Button variant="secondary" className="px-4 py-2 text-xs">
+      <a href={whatsapp} target="_blank" rel="noreferrer" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <span className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md border border-line bg-raised px-4 py-2 text-xs font-medium text-fg transition-colors hover:border-accent hover:text-accent">
           WhatsApp
-        </Button>
+        </span>
       </a>
-      <a href={x} target="_blank" rel="noreferrer">
-        <Button variant="secondary" className="px-4 py-2 text-xs">
+      <a href={x} target="_blank" rel="noreferrer" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <span className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md border border-line bg-raised px-4 py-2 text-xs font-medium text-fg transition-colors hover:border-accent hover:text-accent">
           X
-        </Button>
+        </span>
       </a>
-      <a href={linkedin} target="_blank" rel="noreferrer">
-        <Button variant="secondary" className="px-4 py-2 text-xs">
+      <a href={linkedin} target="_blank" rel="noreferrer" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <span className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md border border-line bg-raised px-4 py-2 text-xs font-medium text-fg transition-colors hover:border-accent hover:text-accent">
           LinkedIn
-        </Button>
+        </span>
       </a>
     </div>
   );

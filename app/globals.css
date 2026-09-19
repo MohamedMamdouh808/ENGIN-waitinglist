@@ -3,20 +3,31 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  --bg: 252 253 255;
+  --raised: 255 255 255;
+  --line: 226 232 240;
+  --fg: 15 23 42;
+  --muted: 100 116 139;
+  color-scheme: light;
 }
 
-* {
-  border-color: theme("colors.line");
+.dark {
+  --bg: 10 11 13;
+  --raised: 18 20 24;
+  --line: 30 35 43;
+  --fg: 237 239 242;
+  --muted: 138 145 156;
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 64px;
 }
 
 body {
-  background-color: theme("colors.bg");
-  color: theme("colors.fg");
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
 }
 
 .bg-blueprint {
@@ -26,7 +37,7 @@ body {
 
 ::selection {
   background: theme("colors.accent");
-  color: theme("colors.bg");
+  color: white;
 }
 
 :focus-visible {
@@ -36,6 +47,14 @@ body {
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+.container-engin {
+  @apply mx-auto max-w-6xl px-4 sm:px-6;
+}
+
+.card {
+  @apply rounded-md border border-line bg-raised;
 }
 
 @media (prefers-reduced-motion: reduce) {

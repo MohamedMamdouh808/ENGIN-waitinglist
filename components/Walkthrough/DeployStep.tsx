@@ -8,6 +8,11 @@ export function DeployStep() {
   const [done, setDone] = useState(0);
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setDone(STAGES.length);
+      return;
+    }
     const id = setInterval(() => {
       setDone((d) => (d < STAGES.length ? d + 1 : d));
     }, 350);

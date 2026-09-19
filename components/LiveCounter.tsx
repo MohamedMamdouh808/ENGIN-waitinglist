@@ -8,6 +8,8 @@ export function LiveCounter() {
   const [bump, setBump] = useState(false);
   const prevCount = useRef<number | null>(null);
 
+  const bumpTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   async function fetchStats() {
     try {
       const res = await fetch("/api/waitlist/stats", { cache: "no-store" });
@@ -16,7 +18,8 @@ export function LiveCounter() {
       setCount((current) => {
         if (current !== null && data.total_signups > current) {
           setBump(true);
-          setTimeout(() => setBump(false), 260);
+          if (bumpTimeout.current) clearTimeout(bumpTimeout.current);
+          bumpTimeout.current = setTimeout(() => setBump(false), 260);
         }
         return data.total_signups;
       });
@@ -26,40 +29,55 @@ export function LiveCounter() {
   }
 
   useEffect(() => {
+    let hidden = false;
+    const onVis = () => {
+      hidden = document.hidden;
+      if (!hidden) fetchStats();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
     fetchStats();
 
-    // Realtime is the primary path; polling is the fallback so the
-    // counter never goes stale if the realtime channel drops.
     const channel = supabaseBrowser
       .channel("waitlist-counter")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "waitlist_users" },
-        () => fetchStats()
+        () => {
+          if (!document.hidden) fetchStats();
+        }
       )
       .subscribe();
 
-    const poll = setInterval(fetchStats, 15_000);
+    const poll = setInterval(() => {
+      if (!document.hidden) fetchStats();
+    }, 15_000);
 
     return () => {
+      document.removeEventListener("visibilitychange", onVis);
       supabaseBrowser.removeChannel(channel);
       clearInterval(poll);
+      if (bumpTimeout.current) clearTimeout(bumpTimeout.current);
     };
   }, []);
 
   return (
-    <section className="border-b border-line py-16">
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <p
-          key={count ?? "loading"}
-          className={`tabular font-mono text-5xl font-semibold text-fg sm:text-6xl ${
-            bump ? "animate-count-up" : ""
-          }`}
-          aria-live="polite"
-        >
-          {count === null ? "—" : count.toLocaleString()}
+    <section className="border-b border-line py-12 sm:py-16">
+      <div className="container-engin max-w-4xl text-center">
+        {count === null ? (
+          <div className="mx-auto h-14 w-32 animate-pulse rounded-md bg-line sm:h-16 sm:w-40" aria-hidden />
+        ) : (
+          <p
+            className={`tabular font-mono text-5xl font-semibold text-fg sm:text-6xl ${bump ? "animate-count-up" : ""}`}
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {count.toLocaleString()}
+          </p>
+        )}
+        <p className="mt-3 text-muted">
+          {count === null ? "Loading builders…" : "builders are already in line."}
         </p>
-        <p className="mt-3 text-muted">builders are already in line.</p>
       </div>
     </section>
   );

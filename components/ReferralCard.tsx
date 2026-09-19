@@ -17,12 +17,12 @@ export function ReferralCard({ link }: { link: string }) {
   }
 
   return (
-    <div className="w-full max-w-md rounded-sm border border-line bg-raised p-4">
-      <p className="font-mono text-xs text-muted">your_referral_link</p>
+    <div className="card w-full max-w-md p-4">
+      <p className="font-mono text-xs text-muted">your_referral_link — share to move forward</p>
       <div className="mt-2 flex items-center gap-2">
-        <code className="flex-1 truncate font-mono text-sm text-accent-soft">{link}</code>
-        <Button variant="secondary" className="shrink-0 px-3 py-2 text-xs" onClick={copy}>
-          {copied ? "Copied" : "Copy"}
+        <code className="flex-1 truncate rounded-md bg-bg px-3 py-2 font-mono text-sm text-accent-soft">{link}</code>
+        <Button variant="secondary" className="shrink-0 px-3 py-2 text-xs" onClick={copy} aria-live="polite">
+          {copied ? "Copied ✓" : "Copy"}
         </Button>
       </div>
     </div>

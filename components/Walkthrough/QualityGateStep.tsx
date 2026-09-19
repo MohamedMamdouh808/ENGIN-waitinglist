@@ -16,6 +16,12 @@ export function QualityGateStep() {
   const [flaggedResolved, setFlaggedResolved] = useState(false);
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setVisible(CHECKS.length);
+      setFlaggedResolved(true);
+      return;
+    }
     const id = setInterval(() => {
       setVisible((v) => (v < CHECKS.length ? v + 1 : v));
     }, 220);

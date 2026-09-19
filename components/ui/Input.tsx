@@ -11,8 +11,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         aria-invalid={!!error}
         aria-describedby={error ? `${props.id}-error` : undefined}
-        className={`w-full rounded-sm border bg-raised px-4 py-3 text-fg placeholder:text-muted focus-visible:outline-none ${
-          error ? "border-warn" : "border-line focus:border-accent"
+        className={`w-full rounded-sm border bg-raised px-4 py-3 text-fg placeholder:text-muted/70 focus-visible:outline-none focus:border-accent ${
+          error ? "border-warn" : "border-line"
         } ${className}`}
         {...props}
       />

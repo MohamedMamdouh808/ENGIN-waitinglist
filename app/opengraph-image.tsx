@@ -20,14 +20,12 @@ export default function OpengraphImage() {
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, color: "#7FA6FF", fontFamily: "monospace" }}>
-          from_intent_to_software
-        </div>
-        <div style={{ fontSize: 84, fontWeight: 700, marginTop: 16, lineHeight: 1 }}>
-          ENGIN
-        </div>
-        <div style={{ fontSize: 32, color: "#8A919C", marginTop: 20 }}>
-          Describe what you want. Get working software.
+        <div style={{ fontSize: 26, color: "#7FA6FF", fontFamily: "monospace" }}>no_code_just_describe_it</div>
+        <div style={{ fontSize: 84, fontWeight: 700, marginTop: 16, lineHeight: 1 }}>ENGIN</div>
+        <div style={{ fontSize: 30, color: "#8A919C", marginTop: 18 }}>Describe your idea. Get working software.</div>
+        <div style={{ marginTop: 24, display: "flex", gap: 12, fontSize: 16, color: "#7FA6FF" }}>
+          <span style={{ border: "1px solid #1E232B", padding: "6px 12px", borderRadius: 999 }}>Free to join</span>
+          <span style={{ border: "1px solid #1E232B", padding: "6px 12px", borderRadius: 999 }}>No spam</span>
         </div>
       </div>
     ),

@@ -33,8 +33,17 @@ export function WaitlistForm({ refCode, onSuccess }: WaitlistFormProps) {
         return;
       }
 
-      window.localStorage.setItem("engin_waitlist_email", email.trim().toLowerCase());
-      onSuccess(data.state);
+      // API returns { already_registered: true, state } for returning emails
+      // and { already_registered: false, state } for new signups — both are success
+      if (data.state) {
+        window.localStorage.setItem("engin_waitlist_email", email.trim().toLowerCase());
+        onSuccess(data.state);
+        return;
+      }
+
+      // Fallback if shape is unexpected
+      setError(data.error?.message ?? "Something didn't go through. Try again.");
+      return;
     } catch {
       setError("Couldn't reach the server. Check your connection and try again.");
     } finally {
@@ -50,7 +59,10 @@ export function WaitlistForm({ refCode, onSuccess }: WaitlistFormProps) {
         required
         placeholder="you@example.com"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          if (error) setError(null);
+        }}
         error={error ?? undefined}
         aria-label="Email address"
       />
