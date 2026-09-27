@@ -32,7 +32,12 @@ create policy "no public reads"
 -- (previously only referral_count > 0). The view still never exposes raw
 -- email to anon — the API resolves display labels server-side (see
 -- lib/mask.ts) and anon has no SELECT on the base table anyway.
-create or replace view waitlist_leaderboard as
+-- NOTE: DROP + CREATE (not CREATE OR REPLACE) because the column list
+-- changed shape — OR REPLACE matches columns by position and fails with
+-- 42P16 when the first column differs. Views store no data, and nothing
+-- depends on this view, so recreate is lossless.
+drop view if exists waitlist_leaderboard;
+create view waitlist_leaderboard as
   select
     id,
     display_alias,
