@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { logEvent } from "@/lib/events";
 import { WalkthroughProgress } from "@/components/Walkthrough/WalkthroughProgress";
 import { DescribeStep } from "@/components/Walkthrough/DescribeStep";
 import { BlueprintStep } from "@/components/Walkthrough/BlueprintStep";
@@ -16,6 +17,7 @@ const LAST_STEP = STEPS.length - 1;
 export function WalkthroughContainer() {
   const [step, setStep] = useState(0);
   const [started, setStarted] = useState(false);
+  const finishedLogged = useRef(false);
 
   useEffect(() => {
     if (!started) return;
@@ -31,6 +33,13 @@ export function WalkthroughContainer() {
     return () => window.removeEventListener("keydown", onKey);
   }, [started]);
 
+  useEffect(() => {
+    if (started && step === LAST_STEP && !finishedLogged.current) {
+      finishedLogged.current = true;
+      logEvent("walkthrough_finished");
+    }
+  }, [started, step]);
+
   if (!started) {
     return (
       <div className="mx-auto max-w-lg text-center">
@@ -43,7 +52,14 @@ export function WalkthroughContainer() {
           <span className="rounded-full border border-line bg-raised px-2 py-1">→ App</span>
         </div>
         <div className="mt-6">
-          <Button onClick={() => setStarted(true)}>Start the walkthrough</Button>
+          <Button
+            onClick={() => {
+              setStarted(true);
+              logEvent("walkthrough_started");
+            }}
+          >
+            Start the walkthrough
+          </Button>
         </div>
         <p className="mt-3 font-mono text-xs text-muted">No signup needed</p>
       </div>

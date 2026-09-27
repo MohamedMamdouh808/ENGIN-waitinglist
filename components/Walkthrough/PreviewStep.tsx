@@ -6,7 +6,7 @@ const RESTAURANTS = [
 export function PreviewStep() {
   return (
     <div className="mx-auto max-w-lg">
-      <p className="mb-4 text-center text-sm text-muted">Your live preview — generated from your plan.</p>
+      <p className="mb-4 text-center text-sm text-muted">Your live preview — built from your Blueprint.</p>
       <div className="overflow-hidden rounded-md border border-line">
         <div className="flex items-center gap-1.5 border-b border-line bg-raised px-3 py-2">
           <span className="h-2 w-2 rounded-full bg-red-400" />

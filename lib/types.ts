@@ -13,7 +13,8 @@ export interface WaitlistState extends WaitlistUser {
 }
 
 export interface LeaderboardEntry {
-  display_alias: string;
+  id: string;
+  label: string;
   referral_count: number;
   rank: number;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { POLL_LEADERBOARD_MS } from "@/lib/constants";
 import type { LeaderboardEntry } from "@/lib/types";
 
 export function Leaderboard() {
@@ -15,15 +16,16 @@ export function Leaderboard() {
         if (!res.ok) return;
         const data = await res.json();
         if (!cancelled) setEntries(data.entries);
-      } catch {
+      } catch (err) {
         // Leave the previous entries in place if a refresh fails.
+        console.warn("[waitlist] leaderboard fetch failed", err);
       }
     }
 
     load();
     const poll = setInterval(() => {
       if (!document.hidden) load();
-    }, 20_000);
+    }, POLL_LEADERBOARD_MS);
     const onVis = () => {
       if (!document.hidden) load();
     };
@@ -38,11 +40,13 @@ export function Leaderboard() {
   return (
     <section id="leaderboard" className="border-b border-line py-16 sm:py-24">
       <div className="container-engin max-w-2xl">
-        <p className="font-mono text-xs text-accent-soft">referral_leaderboard</p>
+        <p className="font-mono text-xs text-accent-soft">open_leaderboard</p>
         <h2 id="leaderboard-heading" className="mt-3 text-3xl font-semibold tracking-tight text-fg">
-          Who&apos;s moving up
+          Everyone&apos;s in line
         </h2>
-        <p className="mt-3 text-muted">Invite friends. Each invite moves you forward. See who&apos;s ahead.</p>
+        <p className="mt-3 text-muted">
+          Every signup shows up here. Invite friends to climb — names are optional, emails stay private.
+        </p>
 
         <ol
           aria-labelledby="leaderboard-heading"
@@ -56,17 +60,14 @@ export function Leaderboard() {
           )}
           {entries?.length === 0 && (
             <li className="px-4 py-8 text-center text-muted">
-              No referrals yet — be the first to invite and jump the queue.
+              No one&apos;s here yet — join and be first in line.
             </li>
           )}
           {entries?.map((entry) => (
-            <li
-              key={`${entry.display_alias}-${entry.rank}`}
-              className="flex items-center justify-between px-4 py-4"
-            >
+            <li key={entry.id} className="flex items-center justify-between px-4 py-4">
               <span className="flex items-center gap-4">
                 <span className="tabular font-mono text-sm text-muted">#{entry.rank}</span>
-                <span className="font-medium text-fg">{entry.display_alias}</span>
+                <span className="font-medium text-fg">{entry.label}</span>
               </span>
               <span className="tabular font-mono text-sm text-accent-soft">
                 {entry.referral_count} referral{entry.referral_count === 1 ? "" : "s"}

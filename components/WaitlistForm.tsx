@@ -7,11 +7,14 @@ import type { WaitlistState } from "@/lib/types";
 
 interface WaitlistFormProps {
   refCode: string | null;
+  utmSource: string | null;
   onSuccess: (state: WaitlistState) => void;
 }
 
-export function WaitlistForm({ refCode, onSuccess }: WaitlistFormProps) {
+export function WaitlistForm({ refCode, utmSource, onSuccess }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [hideFromLeaderboard, setHideFromLeaderboard] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +27,13 @@ export function WaitlistForm({ refCode, onSuccess }: WaitlistFormProps) {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, ref: refCode ?? undefined }),
+        body: JSON.stringify({
+          email,
+          ref: refCode ?? undefined,
+          name: name.trim() ? name.trim() : undefined,
+          hideFromLeaderboard: hideFromLeaderboard || undefined,
+          utm_source: utmSource ?? undefined,
+        }),
       });
       const data = await res.json();
 
@@ -52,23 +61,44 @@ export function WaitlistForm({ refCode, onSuccess }: WaitlistFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto flex w-full max-w-md flex-col gap-3 sm:flex-row">
+    <form onSubmit={handleSubmit} className="mx-auto flex w-full max-w-md flex-col gap-3">
+      <div className="flex w-full flex-col gap-3 sm:flex-row">
+        <Input
+          id="waitlist-email"
+          type="email"
+          required
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (error) setError(null);
+          }}
+          error={error ?? undefined}
+          aria-label="Email address"
+        />
+        <Button type="submit" disabled={loading} aria-busy={loading} className="shrink-0">
+          {loading ? "Joining…" : "Join the waitlist"}
+        </Button>
+      </div>
       <Input
-        id="waitlist-email"
-        type="email"
-        required
-        placeholder="you@example.com"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          if (error) setError(null);
-        }}
-        error={error ?? undefined}
-        aria-label="Email address"
+        id="waitlist-name"
+        type="text"
+        maxLength={40}
+        autoComplete="nickname"
+        placeholder="Your name (optional — shown on the leaderboard)"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        aria-label="Your name, optional"
       />
-      <Button type="submit" disabled={loading} className="shrink-0">
-        {loading ? "Joining…" : "Join the waitlist"}
-      </Button>
+      <label className="flex cursor-pointer items-center justify-center gap-2 text-xs text-muted">
+        <input
+          type="checkbox"
+          checked={hideFromLeaderboard}
+          onChange={(e) => setHideFromLeaderboard(e.target.checked)}
+          className="h-4 w-4 accent-[#3E7BFA]"
+        />
+        Keep me off the public leaderboard
+      </label>
     </form>
   );
 }

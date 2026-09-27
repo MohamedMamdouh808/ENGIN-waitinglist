@@ -2,30 +2,28 @@
 
 import { useState } from "react";
 
+// TODO: client copy — answers below are placeholders, not approved claims.
+// Replace each `a` before launch. Do not ship invented pricing or timelines.
 const FAQS = [
   {
-    q: "What is ENGIN, in simple terms?",
-    a: "Tell ENGIN what you want in plain English — like “a restaurant booking app.” ENGIN turns it into a clear plan and builds the working software for you. Same idea, same app, every time.",
+    q: "What is ENGIN?",
+    a: "TODO: client copy — one plain-English sentence on what ENGIN does.",
   },
   {
     q: "Do I need to know how to code?",
-    a: "No. You describe your idea in words. ENGIN handles the planning, building, and deployment. No coding or technical setup needed.",
-  },
-  {
-    q: "How is this different from other AI tools?",
-    a: "Other tools often guess. ENGIN validates your idea against fixed rules first, then builds deterministically — so the same plan always produces the same reliable app.",
+    a: "TODO: client copy — confirm whether coding is needed.",
   },
   {
     q: "How long does it take?",
-    a: "Describe → get a preview in minutes. The walkthrough on this page shows the 6 steps. Early access members will be first to try the full build.",
+    a: "TODO: client copy — do not invent timelines; confirm with the team.",
   },
   {
-    q: "How much will it cost?",
-    a: "Joining the waitlist is free. Pricing will be shared with early members first — waitlisters get priority and early perks.",
+    q: "What does it cost?",
+    a: "TODO: client copy — do not invent pricing; confirm with the team.",
   },
   {
-    q: "What happens after I join?",
-    a: "You get your queue position and a referral link. Each friend who joins with your link moves you 25 spots forward. We’ll email you when it’s your turn.",
+    q: "What happens after I join the waitlist?",
+    a: "TODO: client copy — confirm the post-signup flow (queue, referrals, email).",
   },
 ];
 

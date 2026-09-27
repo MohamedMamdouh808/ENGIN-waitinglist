@@ -1,18 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+import { TYPING_INTERVAL_MS } from "@/lib/constants";
 
 const PROMPT =
   "I want a restaurant booking app where customers can browse restaurants, choose a table, and reserve a time.";
 
 export function DescribeStep() {
   const [typed, setTyped] = useState("");
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     if (reduceMotion) {
       setTyped(PROMPT);
       return;
@@ -23,9 +22,9 @@ export function DescribeStep() {
       i += 1;
       setTyped(PROMPT.slice(0, i));
       if (i >= PROMPT.length) clearInterval(id);
-    }, 18);
+    }, TYPING_INTERVAL_MS);
     return () => clearInterval(id);
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div className="mx-auto max-w-lg">

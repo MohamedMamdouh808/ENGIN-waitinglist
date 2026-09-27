@@ -39,14 +39,26 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "ENGIN",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ENGIN — describe your idea, get working software",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ENGIN — From Intent to Software",
     description:
       "Describe what you want. ENGIN validates it and compiles it into working software — the same Blueprint, every time.",
-    images: ["/opengraph-image"],
+    images: [
+      {
+        url: "/opengraph-image",
+        alt: "ENGIN — describe your idea, get working software",
+      },
+    ],
   },
   robots: { index: true, follow: true },
 };

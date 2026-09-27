@@ -10,6 +10,9 @@ export interface Database {
           referred_by: string | null;
           referral_count: number;
           display_alias: string;
+          display_name: string | null;
+          show_on_leaderboard: boolean;
+          utm_source: string | null;
           created_at: string;
         };
         Insert: {
@@ -19,6 +22,9 @@ export interface Database {
           referred_by?: string | null;
           referral_count?: number;
           display_alias: string;
+          display_name?: string | null;
+          show_on_leaderboard?: boolean;
+          utm_source?: string | null;
           created_at?: string;
         };
         Update: {
@@ -28,6 +34,36 @@ export interface Database {
           referred_by?: string | null;
           referral_count?: number;
           display_alias?: string;
+          display_name?: string | null;
+          show_on_leaderboard?: boolean;
+          utm_source?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      events: {
+        Row: {
+          id: string;
+          name: string;
+          email_normalized: string | null;
+          user_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email_normalized?: string | null;
+          user_id?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          email_normalized?: string | null;
+          user_id?: string | null;
+          metadata?: Record<string, unknown>;
           created_at?: string;
         };
         Relationships: [];
@@ -70,7 +106,10 @@ export interface Database {
       };
       waitlist_leaderboard: {
         Row: {
+          id: string;
           display_alias: string;
+          display_name: string | null;
+          email_normalized: string;
           referral_count: number;
           rank: number;
         };

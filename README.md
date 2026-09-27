@@ -30,6 +30,12 @@ plain-English intent into deployed software.
    `waitlist_users` and `referral_events` tables, the
    `waitlist_queue` / `waitlist_leaderboard` views, RLS policies, and
    the `increment_referral_count` function.
+   Then run (in order):
+   - `supabase/fix_rls.sql` — locks down anon reads (only needed if you
+     ran the original permissive schema).
+   - `supabase/migrations/0002_tracking_and_leaderboard.sql` — adds
+     `display_name` / `show_on_leaderboard` / `utm_source` columns, the
+     first-party `events` table, and the open leaderboard view.
 3. **Copy environment variables.**
    ```
    cp .env.example .env.local
@@ -40,8 +46,11 @@ plain-English intent into deployed software.
    - `SUPABASE_SERVICE_ROLE_KEY` — same page, the service role secret.
      **Never** expose this to the client; it's only read inside
      `app/api/**` route handlers (`lib/supabase/server.ts`).
-   - `NEXT_PUBLIC_SITE_URL` — your deployed domain (used to build
-     referral links). `http://localhost:3000` while developing.
+    - `NEXT_PUBLIC_SITE_URL` — your deployed domain (used to build
+      referral links). `http://localhost:3000` while developing.
+    - `ADMIN_SECRET` — any long random string (`openssl rand -hex 32`).
+      Gates `GET /api/admin/signups-by-source` (pass as
+      `Authorization: Bearer <secret>`). Server-only, never `NEXT_PUBLIC_`.
 4. **Install and run.**
    ```
    npm install

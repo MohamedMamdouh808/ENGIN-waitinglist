@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { BUMP_RESET_MS, POLL_STATS_MS } from "@/lib/constants";
 
 export function LiveCounter() {
   const [count, setCount] = useState<number | null>(null);
@@ -19,12 +20,13 @@ export function LiveCounter() {
         if (current !== null && data.total_signups > current) {
           setBump(true);
           if (bumpTimeout.current) clearTimeout(bumpTimeout.current);
-          bumpTimeout.current = setTimeout(() => setBump(false), 260);
+          bumpTimeout.current = setTimeout(() => setBump(false), BUMP_RESET_MS);
         }
         return data.total_signups;
       });
-    } catch {
-      // Silent — the counter just holds its last known value.
+    } catch (err) {
+      // Silent toward the user (holds last known value), visible in devtools.
+      console.warn("[waitlist] stats fetch failed", err);
     }
   }
 
@@ -51,7 +53,7 @@ export function LiveCounter() {
 
     const poll = setInterval(() => {
       if (!document.hidden) fetchStats();
-    }, 15_000);
+    }, POLL_STATS_MS);
 
     return () => {
       document.removeEventListener("visibilitychange", onVis);

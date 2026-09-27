@@ -1,23 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+import { DEPLOY_STAGGER_MS } from "@/lib/constants";
 
 const STAGES = ["Build", "Validate", "Deploy"];
 
 export function DeployStep() {
   const [done, setDone] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
+    if (reduceMotion) {
       setDone(STAGES.length);
       return;
     }
     const id = setInterval(() => {
       setDone((d) => (d < STAGES.length ? d + 1 : d));
-    }, 350);
+    }, DEPLOY_STAGGER_MS);
     return () => clearInterval(id);
-  }, []);
+  }, [reduceMotion]);
 
   const live = done >= STAGES.length;
 

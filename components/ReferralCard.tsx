@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { COPY_RESET_MS } from "@/lib/constants";
 
 export function ReferralCard({ link }: { link: string }) {
   const [copied, setCopied] = useState(false);
@@ -10,14 +12,14 @@ export function ReferralCard({ link }: { link: string }) {
     try {
       await navigator.clipboard.writeText(link);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
+      setTimeout(() => setCopied(false), COPY_RESET_MS);
     } catch {
       setCopied(false);
     }
   }
 
   return (
-    <div className="card w-full max-w-md p-4">
+    <Card className="w-full max-w-md p-4">
       <p className="font-mono text-xs text-muted">your_referral_link — share to move forward</p>
       <div className="mt-2 flex items-center gap-2">
         <code className="flex-1 truncate rounded-md bg-bg px-3 py-2 font-mono text-sm text-accent-soft">{link}</code>
@@ -25,6 +27,6 @@ export function ReferralCard({ link }: { link: string }) {
           {copied ? "Copied ✓" : "Copy"}
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }

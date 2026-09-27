@@ -6,6 +6,10 @@ import { REFERRAL_BOOST } from "@/lib/queue";
 import type { WaitlistState } from "@/lib/types";
 
 export function WaitlistSuccess({ state }: { state: WaitlistState }) {
+  const savedEmail =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("engin_waitlist_email") ?? undefined
+      : undefined;
   return (
     <div className="mx-auto flex max-w-md flex-col items-center gap-6 text-center">
       <div>
@@ -23,7 +27,7 @@ export function WaitlistSuccess({ state }: { state: WaitlistState }) {
       </p>
 
       <ReferralCard link={state.referral_link} />
-      <ShareButtons link={state.referral_link} />
+      <ShareButtons link={state.referral_link} queuePosition={state.queue_position} email={savedEmail} />
       <p className="font-mono text-xs text-muted">We&apos;ll email you when it&apos;s your turn. No spam.</p>
     </div>
   );

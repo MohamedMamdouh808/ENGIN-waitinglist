@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+import { QUALITY_GATE_RESOLVE_EXTRA_MS, QUALITY_GATE_STAGGER_MS } from "@/lib/constants";
 
 const CHECKS = [
   "Entity relationships",
@@ -14,23 +16,26 @@ const CHECKS = [
 export function QualityGateStep() {
   const [visible, setVisible] = useState(0);
   const [flaggedResolved, setFlaggedResolved] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
+    if (reduceMotion) {
       setVisible(CHECKS.length);
       setFlaggedResolved(true);
       return;
     }
     const id = setInterval(() => {
       setVisible((v) => (v < CHECKS.length ? v + 1 : v));
-    }, 220);
-    const resolve = setTimeout(() => setFlaggedResolved(true), CHECKS.length * 220 + 700);
+    }, QUALITY_GATE_STAGGER_MS);
+    const resolve = setTimeout(
+      () => setFlaggedResolved(true),
+      CHECKS.length * QUALITY_GATE_STAGGER_MS + QUALITY_GATE_RESOLVE_EXTRA_MS
+    );
     return () => {
       clearInterval(id);
       clearTimeout(resolve);
     };
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div className="mx-auto max-w-lg">

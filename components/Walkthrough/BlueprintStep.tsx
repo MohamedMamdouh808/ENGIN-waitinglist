@@ -2,20 +2,22 @@ const ENTITIES = ["User", "Restaurant", "Table", "Reservation"];
 const ROUTES = ["/", "/restaurants", "/restaurants/:id", "/bookings"];
 const RULES = ["Authenticated users can reserve", "A table cannot have overlapping reservations"];
 
+import { Card } from "@/components/ui/Card";
+
 export function BlueprintStep() {
   return (
     <div className="mx-auto max-w-lg text-left">
       <p className="mb-4 text-center text-sm text-muted">
-        Your idea becomes a clear, structured plan — no tech jargon needed.
+        Your idea becomes a structured plan — what ENGIN calls a Blueprint.
       </p>
-      <div className="card p-5">
-        <p className="font-mono text-xs text-accent-soft">your_plan</p>
+      <Card>
+        <p className="font-mono text-xs text-accent-soft">blueprint</p>
         <p className="mb-4 mt-1 font-medium text-fg">Restaurant Booking App</p>
 
         <BlueprintGroup label="Entities" items={ENTITIES} />
         <BlueprintGroup label="Routes" items={ROUTES} mono />
         <BlueprintGroup label="Rules" items={RULES} />
-      </div>
+      </Card>
     </div>
   );
 }
