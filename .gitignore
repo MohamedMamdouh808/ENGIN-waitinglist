@@ -6,3 +6,5 @@ out
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+# Internal product docs (PRD, specs, cap table) — never commit to the public repo
+DOCS/
