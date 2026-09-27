@@ -2,28 +2,33 @@
 
 import { useState } from "react";
 
-// TODO: client copy — answers below are placeholders, not approved claims.
-// Replace each `a` before launch. Do not ship invented pricing or timelines.
+// DRAFT answers grounded in existing repo claims (README, hero, walkthrough,
+// queue/referral mechanics). Team approval needed before treating as final —
+///flag any line that overstates and it will be trimmed back to TODO.
 const FAQS = [
   {
     q: "What is ENGIN?",
-    a: "TODO: client copy — one plain-English sentence on what ENGIN does.",
+    a: "ENGIN turns plain-English product requirements into structured Blueprints and deterministically compiles them into working software — describe what you want, and get a real app. Same Blueprint, same build, every time.",
   },
   {
     q: "Do I need to know how to code?",
-    a: "TODO: client copy — confirm whether coding is needed.",
+    a: "No. You describe your idea in words — like the restaurant booking example in the walkthrough above — and ENGIN handles the planning, building, and deployment. No setup, no code.",
+  },
+  {
+    q: "How is this different from other AI tools?",
+    a: "Most tools guess — the same prompt can give a different app every run. ENGIN validates your idea against fixed rules first, then builds deterministically with no AI in the build step, so the same Blueprint always produces the same app. You can inspect and audit every step.",
   },
   {
     q: "How long does it take?",
-    a: "TODO: client copy — do not invent timelines; confirm with the team.",
+    a: "The walkthrough on this page takes about a minute and shows the 6 steps your idea goes through: Describe, Blueprint, quality gates, Compiler, Preview, Deploy. Early members build and preview real apps from there.",
   },
   {
     q: "What does it cost?",
-    a: "TODO: client copy — do not invent pricing; confirm with the team.",
+    a: "Joining the waitlist is free. Draft pricing is in the section above — Starter free, Builder and Team paid — but final numbers are still TBD. Waitlist members lock in early perks.",
   },
   {
     q: "What happens after I join the waitlist?",
-    a: "TODO: client copy — confirm the post-signup flow (queue, referrals, email).",
+    a: "You get a queue position and a referral link. Every friend who joins with your link moves you 25 spots closer to the front. We'll email you when it's your turn — no spam.",
   },
 ];
 
