@@ -24,11 +24,11 @@ const FAQS = [
   },
   {
     q: "What does it cost?",
-    a: "Joining the waitlist is free. Draft pricing is in the section above — Starter free, Builder and Team paid — but final numbers are still TBD. Waitlist members lock in early perks.",
+    a: "Four tiers: Free ($0), Pro ($25/mo), Team ($75/mo), and Enterprise (custom). Every plan includes the deterministic 4-target build, the 3-Pane Studio, and Inspector Mode — Pro adds your own domain and clean-code export, Team adds org seats and approval workflows, Enterprise adds your own AI keys and single-tenant VPC. Pricing is early-access and final at launch; waitlist members lock in early perks.",
   },
   {
     q: "What happens after I join the waitlist?",
-    a: "You get a queue position and a referral link. Every friend who joins with your link moves you 25 spots closer to the front. We'll email you when it's your turn — no spam.",
+    a: "You get a queue position and a referral link. Every friend who joins with your link moves you 25 spots closer to the front. We'll email you when it's your turn — one email, no spam.",
   },
 ];
 
